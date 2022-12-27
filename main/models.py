@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class CustomUserManager(BaseUserManager):
     """Maxsus foydalanuvchi menejeri"""
@@ -18,8 +19,8 @@ class CustomUserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_superuser(self, username, email, password=None): 
-        user = self.model(username=username, email=email, password=make_password(password)) 
+    def create_superuser(self, phone_number, email, password=None): 
+        user = self.model(phone_number=phone_number, email=email, password=make_password(password)) 
         user.is_superuser = True  
         user.is_admin = True
         user.is_staff = True
@@ -28,8 +29,7 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    """Foydalanuvchilar"""
-    username = models.CharField('Foydalanuvchi nomi', max_length=50, unique=True, default=uuid.uuid4)
+    """Foydalanuvchilar""" 
     phone_number = models.CharField(
         "Telefon nomer", 
         max_length=15, 
@@ -45,7 +45,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False) 
 
  
-    USERNAME_FIELD = 'username' 
+    USERNAME_FIELD = 'phone_number' 
     REQUIRED_FIELDS = ['email']
 
     objects = CustomUserManager()
@@ -54,11 +54,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'Foydalanuvchi'
         verbose_name_plural = 'Barcha foydalanuvchilar'
 
-    def __str__(self):
-        if self.is_superuser:
-            return self.username
+    def __str__(self): 
         return self.phone_number
 
+
+    def tokens(self):
+        refresh = RefreshToken.for_user(self)
+
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token)
+        }
 
 class Region(models.Model):
     """Viloyat va shaharlar"""
