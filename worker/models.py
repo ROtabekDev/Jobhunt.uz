@@ -117,7 +117,7 @@ class Languages(models.Model):
     )
 
     language_type = models.ForeignKey('Language_types', on_delete=models.CASCADE, verbose_name='Chet tili turi')
-    leval = models.CharField('Darajasi', choices=DARAJA, max_length=10)
+    level = models.CharField('Darajasi', choices=DARAJA, max_length=10)
 
     class Meta:
         verbose_name = 'Chet tili'
