@@ -13,13 +13,52 @@ from .models import (
     Tags
 )
 
-admin.site.register(Company)
-admin.site.register(Size_company)
-admin.site.register(Type_company)
-admin.site.register(Vacancy)
-admin.site.register(Experience_for_vacany)
-admin.site.register(Work_types)
-admin.site.register(Requirements)
-admin.site.register(Tasks) 
-admin.site.register(Conditions) 
-admin.site.register(Tags) 
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'name_company') 
+    list_display_links = ('user', 'name_company') 
+
+@admin.register(Size_company)
+class SizeCompanyAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name') 
+    list_display_links = ('name',) 
+
+@admin.register(Type_company)
+class TypeCompanyAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name') 
+    list_display_links = ('name',) 
+
+@admin.register(Vacancy)
+class EVacancyAdmin(admin.ModelAdmin):
+    list_display = ('id', 'industrial_sector', 'title', 'work_experience') 
+    list_display_links = ('industrial_sector', 'title') 
+
+@admin.register(Experience_for_vacany)
+class ExperienceForVacanyAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name') 
+    list_display_links = ('name',) 
+
+@admin.register(Work_types)
+class WorkTypesAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name') 
+    list_display_links = ('name',) 
+
+@admin.register(Requirements)
+class RequirementsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name') 
+    list_display_links = ('name',) 
+
+@admin.register(Tasks)
+class TasksAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name') 
+    list_display_links = ('name',) 
+
+@admin.register(Conditions)
+class ConditionsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name') 
+    list_display_links = ('name',) 
+
+@admin.register(Tags)
+class TagsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name') 
+    list_display_links = ('name',) 
