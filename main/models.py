@@ -73,6 +73,7 @@ class Region(models.Model):
     class Meta:
         verbose_name = 'Viloyat yoki shahar'
         verbose_name_plural = 'Viloyat va shaharlar'
+        ordering = ('name',)
 
     def __str__(self): 
         return self.name
@@ -80,11 +81,12 @@ class Region(models.Model):
 class District(models.Model):
     """Tumanlar"""
     name = models.CharField("Nomi", max_length=50)
-    region_id = models.ForeignKey(Region, on_delete=models.CASCADE, verbose_name='Viloyat yoki shahar nomi')
+    region_id = models.ForeignKey(Region, on_delete=models.CASCADE, verbose_name='Viloyat')
 
     class Meta:
         verbose_name = 'Tuman'
         verbose_name_plural = 'Tumanlar'
+        ordering = ('name',)
 
     def __str__(self): 
         return self.name
@@ -106,8 +108,8 @@ class Social_network_types(models.Model):
     name = models.CharField("Nomi", max_length=50)
 
     class Meta:
-        verbose_name = 'Ijtimoiy tarmoq'
-        verbose_name_plural = 'Ijtimoiy tarmoqlar'
+        verbose_name = 'Ijtimoiy tarmoq turi'
+        verbose_name_plural = 'Ijtimoiy tarmoq turlari'
 
     def __str__(self): 
         return self.name

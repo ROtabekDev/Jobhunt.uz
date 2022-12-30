@@ -12,8 +12,19 @@ from .models import (
 )
 
 admin.site.register(CustomUser)
-admin.site.register(Region)
-admin.site.register(District)
+
+@admin.register(Region)
+class RegionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name') 
+    list_display_links = ('name',)
+
+@admin.register(District)
+class DistrictAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'region_id') 
+    list_display_links = ('name',)
+    list_filter = ('region_id',)
+    search_fields = ('name',)
+ 
 admin.site.register(Social_networks)
 admin.site.register(Social_network_types)
 admin.site.register(Indisturial_sector)
