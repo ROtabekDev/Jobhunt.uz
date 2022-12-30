@@ -32,6 +32,13 @@ class SNTypesSerializer(ModelSerializer):
         model = Social_network_types
         fields = ('id', 'name')
 
+class SocialNetworksSerializer(ModelSerializer):
+    social_network_id = serializers.StringRelatedField()
+
+    class Meta:
+        model = Social_networks
+        fields = ('id', 'social_network_id', 'nickname')
+
 class CurrencyTypesSerializer(ModelSerializer):
 
     class Meta:

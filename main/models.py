@@ -40,7 +40,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('Elektron pochta')
     region_id = models.ForeignKey('Region', on_delete=models.CASCADE, verbose_name="Viloyat yoki shahari", null=True, blank=True)
     district_id = models.ForeignKey('District', on_delete=models.CASCADE, verbose_name="Tumani", null=True, blank=True)
-    social_networs = models.ManyToManyField('Social_networks', verbose_name="Ijtimoiy tarmoqlari") 
+    social_networs = models.ManyToManyField('Social_networks', verbose_name="Ijtimoiy tarmoqlari", blank=True) 
     is_active = models.BooleanField(default=True) 
     is_staff = models.BooleanField(default=False) 
 

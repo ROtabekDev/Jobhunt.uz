@@ -22,12 +22,12 @@ class Worker(models.Model):
     specility_id = models.ForeignKey(Speciality, on_delete=models.CASCADE, verbose_name='Kasbi')
     salary = models.PositiveIntegerField('Maosh')
     currency_type_id = models.ForeignKey(Currency_types, on_delete=models.CASCADE)
-    education = models.ManyToManyField('Education')
-    work_experience = models.ManyToManyField('Work_experience')
-    languages = models.ManyToManyField('Languages')
+    education = models.ManyToManyField('Education', blank=True)
+    work_experience = models.ManyToManyField('Work_experience', blank=True)
+    languages = models.ManyToManyField('Languages', blank=True)
     skills = models.ManyToManyField('Skills')
-    driver_license = models.ManyToManyField('Driver_licenses')
-    is_freelancer = models.BooleanField('Frilans')
+    driver_license = models.ManyToManyField('Driver_licenses', blank=True)
+    is_freelancer = models.BooleanField('Frilans', default=False)
 
     class Meta:
         verbose_name = 'Nomzod'
@@ -59,9 +59,9 @@ class Education(models.Model):
     speciality = models.CharField("Mutaxassisligi", max_length=150)
     start_month = models.CharField('Boshlanish oyi', choices=MONTHS, max_length=15)
     start_year = models.PositiveIntegerField('Boshanish yili')
-    is_active = models.BooleanField()
-    end_month = models.CharField('Tugash oyi', choices=MONTHS, max_length=15)
-    end_year = models.PositiveIntegerField('Tugash yili')
+    is_active = models.BooleanField("Davom etmoqda", default=False)
+    end_month = models.CharField('Tugash oyi', choices=MONTHS, max_length=15, null=True, blank=True)
+    end_year = models.PositiveIntegerField('Tugash yili', null=True, blank=True)
     description = models.TextField('Tavsif', max_length=500)
 
     class Meta:
@@ -91,9 +91,9 @@ class Work_experience(models.Model):
     company_name = models.CharField('Kompaniya nomi', max_length=100)
     start_month = models.CharField('Boshlanish oyi', choices=MONTHS, max_length=15)
     start_year = models.PositiveIntegerField('Boshanish yili')
-    is_active = models.BooleanField()
-    end_month = models.CharField('Tugash oyi', choices=MONTHS, max_length=15)
-    end_year = models.PositiveIntegerField('Tugash yili')
+    is_active = models.BooleanField("Davom etmoqda", default=False)
+    end_month = models.CharField('Tugash oyi', choices=MONTHS, max_length=15, null=True, blank=True)
+    end_year = models.PositiveIntegerField('Tugash yili', null=True, blank=True)
     description = models.TextField('Tavsif', max_length=500)
 
     class Meta:
@@ -128,12 +128,12 @@ class Languages(models.Model):
         return f'{self.language_type}  {self.leval}' 
 
 class Language_types(models.Model):
-    """"Chet tililari"""
+    """"Chet tili turlari"""
     name = models.CharField('Nomi', max_length=50)
 
     class Meta:
-        verbose_name = 'Chet tili'
-        verbose_name_plural = 'Chet tillari'
+        verbose_name = 'Chet tili turi'
+        verbose_name_plural = 'Chet tili turlari'
 
 
     def __str__(self): 
