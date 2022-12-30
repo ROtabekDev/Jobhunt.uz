@@ -25,3 +25,29 @@ class DistrictSerializer(ModelSerializer):
     class Meta:
         model = District
         fields = ('id', 'name', 'region_id')
+
+class SNTypesSerializer(ModelSerializer):
+
+    class Meta:
+        model = Social_network_types
+        fields = ('id', 'name')
+
+class CurrencyTypesSerializer(ModelSerializer):
+
+    class Meta:
+        model = Currency_types
+        fields = ('id', 'name')
+
+class IndisturialSectorSerializer(ModelSerializer):
+
+    class Meta:
+        model = Indisturial_sector
+        fields = ('id', 'name')
+
+
+class SpecialitySerializer(ModelSerializer):
+    idustrial_sector_id = serializers.StringRelatedField()
+
+    class Meta:
+        model = Speciality
+        fields = ('id', 'name', 'idustrial_sector_id', 'for_worker')
