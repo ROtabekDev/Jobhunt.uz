@@ -87,10 +87,10 @@ class CompanyRegisterSerializer(ModelSerializer):
         industrial_sector = validated_data.pop('industrial_sector')                        
         speciality = validated_data.pop('speciality')   
 
-        instance = Company.objects.create(
+        company = Company.objects.create(
             user=user,
             **validated_data
             )
-        instance.industrial_sector.set(industrial_sector)
-        instance.speciality.set(speciality)
-        return instance
+        company.industrial_sector.set(industrial_sector)
+        company.speciality.set(speciality)
+        return company

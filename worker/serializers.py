@@ -71,10 +71,10 @@ class WorkerRegisterSerializer(ModelSerializer):
         skills = validated_data.pop('skills')                        
         driver_license = validated_data.pop('driver_license')   
 
-        instance = Worker.objects.create(
+        worker = Worker.objects.create(
             user=user,
             **validated_data
             )
-        instance.skills.set(skills)
-        instance.driver_license.set(driver_license)
-        return instance
+        worker.skills.set(skills)
+        worker.driver_license.set(driver_license)
+        return worker
