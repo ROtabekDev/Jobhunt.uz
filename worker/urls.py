@@ -4,7 +4,8 @@ from .views import (
     ELListAPIView,
     LanguageTypesListAPIView,
     SkillsListAPIView,
-    DLListAPIView
+    DLListAPIView,
+    RegisterAPIView
 )
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     path('skills/', SkillsListAPIView.as_view(), name='skills'),
     path('driver-licenses/', DLListAPIView.as_view(), name='driver-licenses'),
 
+    path('register/', RegisterAPIView.as_view(), name='register-worker'),
 ]

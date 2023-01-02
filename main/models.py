@@ -10,10 +10,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 class CustomUserManager(BaseUserManager):
     """Maxsus foydalanuvchi menejeri"""
-    def create_user(self, phone_number, email, password=None):  
+    def create_user(self, phone_number, email, region_id, district_id, password=None):  
         user = self.model( 
             phone_number=phone_number,
-            email=email  
+            email=email,
+            region_id=region_id,  
+            district_id=district_id
             )
         user.set_password(password)
         user.save()
@@ -38,9 +40,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         validators=[RegexValidator(regex='^[+][998]{3}?[0-9]{9}$', message='Iltimos telefon nomerni to`g`ri kiriting')]
         )
     email = models.EmailField('Elektron pochta')
-    region_id = models.ForeignKey('Region', on_delete=models.CASCADE, verbose_name="Viloyat yoki shahari", null=True, blank=True)
-    district_id = models.ForeignKey('District', on_delete=models.CASCADE, verbose_name="Tumani", null=True, blank=True)
-    social_networs = models.ManyToManyField('Social_networks', verbose_name="Ijtimoiy tarmoqlari", blank=True) 
+    region_id = models.ForeignKey('Region', on_delete=models.CASCADE, verbose_name="Viloyat yoki shahari")
+    district_id = models.ForeignKey('District', on_delete=models.CASCADE, verbose_name="Tumani")
     is_active = models.BooleanField(default=True) 
     is_staff = models.BooleanField(default=False) 
 
@@ -89,30 +90,7 @@ class District(models.Model):
         ordering = ('name',)
 
     def __str__(self): 
-        return self.name
-
-class Social_networks(models.Model):
-    """Ijtiomiy tarmoqlar"""
-    social_network_id = models.ForeignKey('Social_network_types', on_delete=models.CASCADE, verbose_name='Ijtimoiy tarmoq')
-    nickname = models.CharField("Foydalanuvchi nomi", max_length=50)
-
-    class Meta:
-        verbose_name = 'Ijtimoiy tarmoq'
-        verbose_name_plural = 'Ijtimoiy tarmoqlar'
-
-    def __str__(self): 
-        return self.name
-
-class Social_network_types(models.Model):
-    """Ijtiomiy tarmoq turlari"""
-    name = models.CharField("Nomi", max_length=50)
-
-    class Meta:
-        verbose_name = 'Ijtimoiy tarmoq turi'
-        verbose_name_plural = 'Ijtimoiy tarmoq turlari'
-
-    def __str__(self): 
-        return self.name
+        return self.name 
 
 class Indisturial_sector(models.Model):
     """Sanoat sohasi"""

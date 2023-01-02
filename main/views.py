@@ -1,25 +1,22 @@
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 
 from .models import (
     CustomUser,
     Region,
-    District,
-    Social_networks,
-    Social_network_types,
+    District, 
     Indisturial_sector,
     Speciality,
     Currency_types
 )
 
 from .serializers import (
+    CustomUserSerializer,
     RegionSerializer,
-    DistrictSerializer,
-    SNTypesSerializer,
+    DistrictSerializer, 
     CurrencyTypesSerializer,
     IndisturialSectorSerializer,
     SpecialitySerializer
-)
-
+) 
 
 class RegionListAPIView(ListAPIView):
     queryset = Region.objects.all()
@@ -28,11 +25,7 @@ class RegionListAPIView(ListAPIView):
 class DistrictListAPIView(ListAPIView):
     queryset = District.objects.all()
     serializer_class = DistrictSerializer
-    filterset_fields = ['region_id']
-
-class SNTypesListAPIView(ListAPIView):
-    queryset = Social_network_types.objects.all()
-    serializer_class = SNTypesSerializer
+    filterset_fields = ['region_id'] 
 
 class CurrencyTypesListAPIView(ListAPIView):
     queryset = Currency_types.objects.all()

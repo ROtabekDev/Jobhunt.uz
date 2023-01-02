@@ -1,3 +1,4 @@
+import json
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
@@ -11,6 +12,10 @@ from .models import (
     Skills,
     Driver_licenses
 )
+
+from main.models import CustomUser
+from main.serializers import CustomUserSerializer
+
 
 
 class EducationLevelSerializer(ModelSerializer):
@@ -43,3 +48,33 @@ class DriverLicensesSerializer(ModelSerializer):
     class Meta:
         model = Driver_licenses
         fields = ('id', 'name')
+
+
+class WorkerRegisterSerializer(ModelSerializer):
+    user = CustomUserSerializer() 
+    
+    class Meta:
+        model = Worker
+        fields = ('user','full_name', 'gender', 'birthday', 'industurial_sector_id', 'specility_id', 'salary', 'currency_type_id', 'skills', 'driver_license', 'is_freelancer')
+     
+    def create(self, validated_data): 
+        user = dict(validated_data.pop('user'))  
+        del user['password2'] 
+        user = CustomUser.objects.create_user(
+                                        phone_number=user['phone_number'],
+                                        email=user['email'],
+                                        region_id=user['region_id'],
+                                        district_id=user['district_id'],
+                                        password=user['password']
+                                        )
+        
+        skills = validated_data.pop('skills')                        
+        driver_license = validated_data.pop('driver_license')   
+
+        instance = Worker.objects.create(
+            user=user,
+            **validated_data
+            )
+        instance.skills.set(skills)
+        instance.driver_license.set(driver_license)
+        return instance

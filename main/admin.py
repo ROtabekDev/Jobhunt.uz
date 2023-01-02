@@ -4,9 +4,7 @@ from django import forms
 from .models import (
     CustomUser,
     Region,
-    District,
-    Social_networks,
-    Social_network_types,
+    District, 
     Indisturial_sector,
     Speciality,
     Currency_types
@@ -28,17 +26,7 @@ class DistrictAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'region_id') 
     list_display_links = ('name',)
     list_filter = ('region_id',)
-    search_fields = ('name',)
-
-@admin.register(Social_networks)
-class SocialNetworksAdmin(admin.ModelAdmin):
-    list_display = ('id', 'social_network_id', 'nickname') 
-    list_display_links = ('nickname',)
-
-@admin.register(Social_network_types)
-class SocialNetworkTypesAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name') 
-    list_display_links = ('name',)
+    search_fields = ('name',) 
 
 @admin.register(Indisturial_sector)
 class IndisturialSectorAdmin(admin.ModelAdmin):

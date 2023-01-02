@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 
 from .models import (
     Worker,
@@ -12,12 +12,16 @@ from .models import (
 )
 
 from .serializers import (
+    WorkerRegisterSerializer,
     EducationLevelSerializer,
     LanguagesSerializer,
     LanguageTypesSerializer,
     SkillsSerializer,
     DriverLicensesSerializer,
 )
+
+class RegisterAPIView(CreateAPIView):
+    serializer_class = WorkerRegisterSerializer
 
 class ELListAPIView(ListAPIView):
     queryset = Education_level.objects.all()
