@@ -14,6 +14,9 @@ from .models import (
     Tags
 )
 
+from main.serializers import CustomUserSerializer
+from main.models import CustomUser 
+
 class SizeCompanySerializer(ModelSerializer):
     
     class Meta:
@@ -61,3 +64,33 @@ class TagsSerializer(ModelSerializer):
     class Meta:
         model = Tags
         fields = ('id', 'name')
+
+
+class CompanyRegisterSerializer(ModelSerializer):
+    user = CustomUserSerializer() 
+    
+    class Meta:
+        model = Company
+        fields = ('user','name_company', 'legal_name_company', 'industrial_sector', 'speciality', 'size_company', 'type_company', 'description', 'web_page')
+     
+    def create(self, validated_data): 
+        user = dict(validated_data.pop('user'))  
+        del user['password2'] 
+        user = CustomUser.objects.create_user(
+                                        phone_number=user['phone_number'],
+                                        email=user['email'],
+                                        region_id=user['region_id'],
+                                        district_id=user['district_id'],
+                                        password=user['password']
+                                        )
+        
+        industrial_sector = validated_data.pop('industrial_sector')                        
+        speciality = validated_data.pop('speciality')   
+
+        instance = Company.objects.create(
+            user=user,
+            **validated_data
+            )
+        instance.industrial_sector.set(industrial_sector)
+        instance.speciality.set(speciality)
+        return instance

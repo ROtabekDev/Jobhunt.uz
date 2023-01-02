@@ -11,13 +11,13 @@ class Company(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Foydalanuvchi")
     name_company = models.CharField('Kompaniya nomi', max_length=100)
     legal_name_company = models.CharField('Kompaniyaninhg yuridik nomi', max_length=100)
-    industrial_sector = models.ManyToManyField(Indisturial_sector)
-    speciality = models.ManyToManyField(Speciality)
+    industrial_sector = models.ManyToManyField(Indisturial_sector, blank=True)
+    speciality = models.ManyToManyField(Speciality, blank=True)
     size_company = models.ForeignKey('Size_company', on_delete=models.CASCADE, verbose_name='Hodimlar soni')
     type_company = models.ForeignKey('Type_company', on_delete=models.CASCADE, verbose_name='Kompaniya turi')
-    vacancy = models.ForeignKey('Vacancy', on_delete=models.CASCADE, verbose_name='Bo`sh ish o`rni')
+    vacancy = models.ForeignKey('Vacancy', on_delete=models.CASCADE, verbose_name='Bo`sh ish o`rni', null=True, blank=True)
     description = models.TextField('Tavsif', max_length=500)
-    web_page = models.CharField('Web sahifa', max_length=100)
+    web_page = models.CharField('Web sahifa', max_length=100, null=True, blank=True)
 
 
     class Meta:

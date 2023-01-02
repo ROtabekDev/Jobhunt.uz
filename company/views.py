@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 
 from .models import (
     Company,
@@ -17,9 +17,14 @@ from .serializers import (
     SizeCompanySerializer,
     TypeCompanySerializer,
     ExperienceForVacanySerializer,
-    WorkTypesSerializer 
+    WorkTypesSerializer,
+
+    CompanyRegisterSerializer
 )
 
+class RegisterCompany(CreateAPIView):
+    serializer_class = CompanyRegisterSerializer
+    
 class SizeCompanyListAPIView(ListAPIView):
     queryset = Size_company.objects.all()
     serializer_class = SizeCompanySerializer
