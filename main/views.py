@@ -1,7 +1,6 @@
 from rest_framework.generics import ListAPIView, CreateAPIView
 
-from .models import (
-    CustomUser,
+from .models import ( 
     Region,
     District, 
     Indisturial_sector,
@@ -10,13 +9,19 @@ from .models import (
 )
 
 from .serializers import (
-    CustomUserSerializer,
     RegionSerializer,
     DistrictSerializer, 
     CurrencyTypesSerializer,
     IndisturialSectorSerializer,
-    SpecialitySerializer
+    SpecialitySerializer,
+    LoginSerializer
 ) 
+
+class LoginAPIView(CreateAPIView):
+    serializer_class = LoginSerializer
+
+    def perform_create(self, serializer):
+        pass
 
 class RegionListAPIView(ListAPIView):
     queryset = Region.objects.all()

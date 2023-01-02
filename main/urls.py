@@ -6,6 +6,8 @@ from .views import (
     CurrencyTypesListAPIView,
     IndisturialSectorListAPIView,
     SpecialityListAPIView,
+
+    LoginAPIView
 )
 
 urlpatterns = [
@@ -14,4 +16,5 @@ urlpatterns = [
     path('currency-types/', CurrencyTypesListAPIView.as_view(), name='currency-types'), # api/v1/main/currency-types/
     path('indisturial-sectors/', IndisturialSectorListAPIView.as_view(), name='ndisturial-sectors'), # api/v1/main/indisturial-sectors/
     path('speciality/', SpecialityListAPIView.as_view(), name='speciality'), # api/v1/main/speciality/
+    path('login/', LoginAPIView.as_view(), name='speciality'),  
 ]
