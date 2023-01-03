@@ -94,3 +94,35 @@ class CreateEducationSerializer(ModelSerializer):
             )
         worker.education.add(education) 
         return education
+
+class CreateWorkExperienceSerializer(ModelSerializer):
+    worker = serializers.StringRelatedField()
+
+    class Meta:
+        model = Work_experience
+        fields = ('worker','position', 'company_name', 'start_month', 'start_year', 'is_active', 'end_month', 'end_year', 'description')
+
+    def create(self, validated_data):  
+        worker = validated_data.get('worker') 
+
+        work_experience = Work_experience.objects.create( 
+            **validated_data
+            )
+        worker.work_experience.add(work_experience) 
+        return work_experience
+
+class CreateLanguagesSerializer(ModelSerializer):
+    worker = serializers.StringRelatedField()
+
+    class Meta:
+        model = Languages
+        fields = ('worker','language_type', 'level')
+
+    def create(self, validated_data):  
+        worker = validated_data.get('worker') 
+
+        language = Languages.objects.create( 
+            **validated_data
+            )
+        worker.languages.add(language) 
+        return language

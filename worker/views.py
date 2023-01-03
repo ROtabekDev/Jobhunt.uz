@@ -19,7 +19,9 @@ from .serializers import (
     LanguageTypesSerializer,
     SkillsSerializer,
     DriverLicensesSerializer,
-    CreateEducationSerializer
+    CreateEducationSerializer,
+    CreateWorkExperienceSerializer,
+    CreateLanguagesSerializer,
 )
 
 from .permissions import IsWorkerUser
@@ -52,3 +54,21 @@ class CreateEducation(CreateAPIView):
         worker = Worker.objects.get(user=user)
         serializer.save(worker=worker) 
 
+class CreateWorkExperience(CreateAPIView):
+    serializer_class = CreateWorkExperienceSerializer
+    permission_classes = (IsAuthenticated, IsWorkerUser)
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        worker = Worker.objects.get(user=user)
+        serializer.save(worker=worker) 
+
+
+class CreateLanguages(CreateAPIView):
+    serializer_class = CreateLanguagesSerializer
+    permission_classes = (IsAuthenticated, IsWorkerUser)
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        worker = Worker.objects.get(user=user)
+        serializer.save(worker=worker) 

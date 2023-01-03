@@ -125,7 +125,7 @@ class Languages(models.Model):
 
 
     def __str__(self): 
-        return f'{self.language_type}  {self.leval}' 
+        return f'{self.language_type}  {self.level}' 
 
 class Language_types(models.Model):
     """"Chet tili turlari"""
