@@ -5,7 +5,8 @@ from .views import (
     LanguageTypesListAPIView,
     SkillsListAPIView,
     DLListAPIView,
-    RegisterAPIView
+    RegisterAPIView,
+    CreateEducation
 )
 
 urlpatterns = [
@@ -15,4 +16,5 @@ urlpatterns = [
     path('driver-licenses/', DLListAPIView.as_view(), name='driver-licenses'),
 
     path('register/', RegisterAPIView.as_view(), name='register-worker'),
+    path('create-education/', CreateEducation.as_view(), name='create-education'),
 ]

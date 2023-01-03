@@ -78,3 +78,19 @@ class WorkerRegisterSerializer(ModelSerializer):
         worker.skills.set(skills)
         worker.driver_license.set(driver_license)
         return worker
+
+class CreateEducationSerializer(ModelSerializer):
+    worker = serializers.StringRelatedField()
+
+    class Meta:
+        model = Education
+        fields = ('worker','place_name', 'education_leval', 'speciality', 'start_month', 'start_year', 'is_active', 'end_month', 'end_year', 'description')
+
+    def create(self, validated_data):  
+        worker = validated_data.get('worker') 
+
+        education = Education.objects.create( 
+            **validated_data
+            )
+        worker.education.add(education) 
+        return education

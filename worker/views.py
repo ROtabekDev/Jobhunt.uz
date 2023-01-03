@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from .models import (
     Worker,
@@ -18,10 +19,10 @@ from .serializers import (
     LanguageTypesSerializer,
     SkillsSerializer,
     DriverLicensesSerializer,
+    CreateEducationSerializer
 )
 
-class RegisterAPIView(CreateAPIView):
-    serializer_class = WorkerRegisterSerializer
+from .permissions import IsWorkerUser
 
 class ELListAPIView(ListAPIView):
     queryset = Education_level.objects.all()
@@ -39,4 +40,15 @@ class DLListAPIView(ListAPIView):
     queryset = Driver_licenses.objects.all()
     serializer_class = DriverLicensesSerializer
 
+class RegisterAPIView(CreateAPIView):
+    serializer_class = WorkerRegisterSerializer
+
+class CreateEducation(CreateAPIView):
+    serializer_class = CreateEducationSerializer
+    permission_classes = (IsAuthenticated, IsWorkerUser)
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        worker = Worker.objects.get(user=user)
+        serializer.save(worker=worker) 
 

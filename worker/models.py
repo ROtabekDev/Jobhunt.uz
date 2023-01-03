@@ -35,7 +35,7 @@ class Worker(models.Model):
 
 
     def __str__(self): 
-        return f'{self.user} {self.full_name}' 
+        return self.full_name
 
 class Education(models.Model):
     """Ta'lim joyi"""
