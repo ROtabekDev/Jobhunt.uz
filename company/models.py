@@ -15,7 +15,6 @@ class Company(models.Model):
     speciality = models.ManyToManyField(Speciality, blank=True)
     size_company = models.ForeignKey('Size_company', on_delete=models.CASCADE, verbose_name='Hodimlar soni')
     type_company = models.ForeignKey('Type_company', on_delete=models.CASCADE, verbose_name='Kompaniya turi')
-    vacancy = models.ForeignKey('Vacancy', on_delete=models.CASCADE, verbose_name='Bo`sh ish o`rni', null=True, blank=True)
     description = models.TextField('Tavsif', max_length=500)
     web_page = models.CharField('Web sahifa', max_length=100, null=True, blank=True)
 
@@ -26,7 +25,7 @@ class Company(models.Model):
 
 
     def __str__(self): 
-        return f'{self.user} {self.name_company}' 
+        return self.name_company
 
 class Size_company(models.Model):
     """Kompaniya hajmi"""
@@ -60,6 +59,7 @@ class Vacancy(models.Model):
         ('0', 'Suhbat orqali'),
     )
 
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name='Kompaniya')
     industrial_sector = models.ForeignKey(Indisturial_sector, on_delete=models.CASCADE, verbose_name='Sanoat sohasi')
     title = models.CharField('Vakansiya nomi', max_length=100)
     work_experience = models.ForeignKey('Experience_for_vacany', on_delete=models.CASCADE, verbose_name='Tajriba')
@@ -69,8 +69,8 @@ class Vacancy(models.Model):
     start_salary = models.PositiveIntegerField('Boshlang`ich maosh')
     end_salary = models.PositiveIntegerField('Oxirgi maosh')
     is_online = models.BooleanField('Online')
-    region = models.ForeignKey(Region, on_delete=models.CASCADE, verbose_name='Viloyat')
-    district = models.ForeignKey(District, on_delete=models.CASCADE, verbose_name='Tuman')
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, verbose_name='Viloyat', null=True, blank=True)
+    district = models.ForeignKey(District, on_delete=models.CASCADE, verbose_name='Tuman', null=True, blank=True)
     requirements = models.ManyToManyField('Requirements', verbose_name='Talablar')
     tasks = models.ManyToManyField('Tasks', verbose_name='Vazifalar')
     conditions = models.ManyToManyField('Conditions', verbose_name='Shartlar')

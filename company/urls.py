@@ -5,7 +5,8 @@ from .views import (
     TypeCompanyListAPIView,
     ExperienceForVacanyListAPIView,
     WorkTypesListAPIView,
-    RegisterCompany
+    RegisterCompany,
+    CreateVacancyAPIView
 )
 
 urlpatterns = [
@@ -15,5 +16,6 @@ urlpatterns = [
     path('work-types/', WorkTypesListAPIView.as_view(), name='size-company'),
 
     path('register/', RegisterCompany.as_view(), name='register-company'),
-    
+    path('create-vacancy/', CreateVacancyAPIView.as_view(), name='create-vacancy'),
+
 ]

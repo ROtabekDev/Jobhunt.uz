@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from .models import (
     Company,
@@ -17,13 +18,24 @@ from .serializers import (
     SizeCompanySerializer,
     TypeCompanySerializer,
     ExperienceForVacanySerializer,
-    WorkTypesSerializer,
-
-    CompanyRegisterSerializer
+    WorkTypesSerializer, 
+    CompanyRegisterSerializer,
+    CreateVacancySerializer,
 )
+
+from .permissions import IsCompanyUser
 
 class RegisterCompany(CreateAPIView):
     serializer_class = CompanyRegisterSerializer
+
+class CreateVacancyAPIView(CreateAPIView):
+    serializer_class = CreateVacancySerializer 
+    permission_classes = (IsAuthenticated, IsCompanyUser)  
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        company = Company.objects.get(user=user)
+        serializer.save(company=company) 
     
 class SizeCompanyListAPIView(ListAPIView):
     queryset = Size_company.objects.all()

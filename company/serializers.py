@@ -17,6 +17,7 @@ from .models import (
 from main.serializers import CustomUserSerializer
 from main.models import CustomUser 
 
+from django.core.exceptions import ObjectDoesNotExist
 class SizeCompanySerializer(ModelSerializer):
     
     class Meta:
@@ -94,3 +95,80 @@ class CompanyRegisterSerializer(ModelSerializer):
         company.industrial_sector.set(industrial_sector)
         company.speciality.set(speciality)
         return company
+
+class CreateVacancySerializer(ModelSerializer):
+    company = serializers.StringRelatedField(read_only=True) 
+    requirements = RequirementsSerializer(write_only=True, many=True)
+    tasks = RequirementsSerializer(write_only=True, many=True)
+    conditions = RequirementsSerializer(write_only=True, many=True)
+    tags = RequirementsSerializer(write_only=True, many=True)
+
+
+    class Meta:
+        model = Vacancy
+        fields = (
+            'company', 
+            'industrial_sector',
+            'title',
+            'work_experience',
+            'type_work',
+            'salary_type',
+            'currency_type',
+            'start_salary',
+            'end_salary',
+            'is_online',
+            'region',
+            'district',
+            'requirements',
+            'tasks',
+            'conditions',
+            'tags'
+            )
+
+    def create(self, validated_data):   
+        requirements = validated_data.pop('requirements')   
+        tasks = validated_data.pop('tasks')   
+        conditions = validated_data.pop('conditions')   
+        tags = validated_data.pop('tags')   
+ 
+        vacancy = Vacancy.objects.create( 
+            **validated_data
+            ) 
+            
+        for requirement in requirements:
+            try:
+                talab = Requirements.objects.get(name=requirement['name'])
+                vacancy.requirements.remove(talab)
+                vacancy.requirements.add(talab) 
+            except ObjectDoesNotExist:  
+                talab = Requirements.objects.create(name=requirement['name'])
+                vacancy.requirements.add(talab) 
+
+        for task in tasks:
+            try:
+                vazifa = Tasks.objects.get(name=task['name'])
+                vacancy.tasks.remove(vazifa)
+                vacancy.tasks.add(vazifa) 
+            except ObjectDoesNotExist: 
+                vazifa = Tasks.objects.create(name=task['name'])
+                vacancy.tasks.add(vazifa) 
+
+        for condition in conditions:
+            try:  
+                shart = Conditions.objects.get(name=condition['name'])
+                vacancy.conditions.remove(shart)
+                vacancy.conditions.add(shart) 
+            except ObjectDoesNotExist:  
+                shart = Conditions.objects.create(name=condition['name'])
+                vacancy.conditions.add(shart) 
+
+        for tag in tags: 
+            try:  
+                teg = Tags.objects.get(name=tag['name'])
+                vacancy.tags.remove(teg)
+                vacancy.tags.add(teg) 
+            except ObjectDoesNotExist:  
+                teg = Tags.objects.create(name=tag['name'])
+                vacancy.tags.add(teg)  
+                
+        return vacancy
