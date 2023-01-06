@@ -16,7 +16,34 @@ from .models import (
 from main.models import CustomUser
 from main.serializers import CustomUserSerializer
 
+from company.models import Vacancy
+from company import serializers as company_serializers
 
+
+class ListVacancySerializer(ModelSerializer):
+    company = serializers.StringRelatedField()
+    region = serializers.StringRelatedField()
+    district = serializers.StringRelatedField() 
+
+    class Meta:
+        model = Vacancy
+        fields = ('id','title', 'company', 'start_salary', 'end_salary', 'region', 'district')
+
+class RetrieveVacancySerializer(ModelSerializer):
+    company = serializers.StringRelatedField() 
+    work_experience = serializers.StringRelatedField()
+    type_work = serializers.StringRelatedField()
+    currency_type = serializers.StringRelatedField()
+    region = serializers.StringRelatedField()
+    district = serializers.StringRelatedField()
+    requirements = company_serializers.RequirementsSerializer(read_only=True, many=True)
+    tasks = company_serializers.TasksSerializer(read_only=True, many=True)
+    conditions = company_serializers.ConditionsSerializer(read_only=True, many=True)
+    tags = company_serializers.TagsSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Vacancy
+        fields = ('id', 'company', 'title', 'work_experience', 'type_work', 'salary_type', 'currency_type', 'start_salary', 'end_salary', 'is_online', 'region', 'district', 'requirements', 'tasks', 'conditions', 'tags')
 
 class EducationLevelSerializer(ModelSerializer):
 

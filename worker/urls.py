@@ -8,7 +8,9 @@ from .views import (
     RegisterAPIView,
     CreateEducation,
     CreateWorkExperience,
-    CreateLanguages
+    CreateLanguages,
+    VacancyListAPIView,
+    VacancyRetrieveAPIView
 )
 
 urlpatterns = [
@@ -21,4 +23,7 @@ urlpatterns = [
     path('create-education/', CreateEducation.as_view(), name='create-education'),
     path('create-work-experience/', CreateWorkExperience.as_view(), name='create-work-experience'),
     path('create-languages/', CreateLanguages.as_view(), name='create-languages'),
+
+    path('vacancy/', VacancyListAPIView.as_view()),
+    path('vacancy/<int:pk>/', VacancyRetrieveAPIView.as_view())
 ]

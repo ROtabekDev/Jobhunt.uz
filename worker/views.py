@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from .models import (
@@ -22,9 +22,14 @@ from .serializers import (
     CreateEducationSerializer,
     CreateWorkExperienceSerializer,
     CreateLanguagesSerializer,
+    ListVacancySerializer,
+    Vacancy,
+    RetrieveVacancySerializer
 )
 
 from .permissions import IsWorkerUser
+
+
 
 class ELListAPIView(ListAPIView):
     queryset = Education_level.objects.all()
@@ -72,3 +77,11 @@ class CreateLanguages(CreateAPIView):
         user = self.request.user
         worker = Worker.objects.get(user=user)
         serializer.save(worker=worker) 
+
+class VacancyListAPIView(ListAPIView):
+    queryset = Vacancy.objects.all()
+    serializer_class = ListVacancySerializer
+
+class VacancyRetrieveAPIView(RetrieveAPIView):
+    queryset = Vacancy.objects.all()
+    serializer_class = RetrieveVacancySerializer
