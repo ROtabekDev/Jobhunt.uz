@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from .models import (
@@ -21,6 +21,8 @@ from .serializers import (
     WorkTypesSerializer, 
     CompanyRegisterSerializer,
     CreateVacancySerializer,
+    ListVacancySerializer,
+    RetrieveVacancySerializer
 )
 
 from .permissions import IsCompanyUser
@@ -52,3 +54,12 @@ class ExperienceForVacanyListAPIView(ListAPIView):
 class WorkTypesListAPIView(ListAPIView):
     queryset = Work_types.objects.all()
     serializer_class = WorkTypesSerializer
+
+class VacancyListAPIView(ListAPIView):
+    queryset = Vacancy.objects.all()
+    serializer_class = ListVacancySerializer
+    filterset_fields = ['region', 'district', 'industrial_sector']
+
+class VacancyRetrieveAPIView(RetrieveAPIView):
+    queryset = Vacancy.objects.all()
+    serializer_class = RetrieveVacancySerializer

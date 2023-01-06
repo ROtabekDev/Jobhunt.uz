@@ -18,6 +18,7 @@ from main.serializers import CustomUserSerializer
 from main.models import CustomUser 
 
 from django.core.exceptions import ObjectDoesNotExist
+
 class SizeCompanySerializer(ModelSerializer):
     
     class Meta:
@@ -172,3 +173,28 @@ class CreateVacancySerializer(ModelSerializer):
                 vacancy.tags.add(teg)  
                 
         return vacancy
+
+class ListVacancySerializer(ModelSerializer):
+    company = serializers.StringRelatedField()
+    region = serializers.StringRelatedField()
+    district = serializers.StringRelatedField() 
+
+    class Meta:
+        model = Vacancy
+        fields = ('id','title', 'company', 'start_salary', 'end_salary', 'region', 'district')
+
+class RetrieveVacancySerializer(ModelSerializer):
+    company = serializers.StringRelatedField() 
+    work_experience = serializers.StringRelatedField()
+    type_work = serializers.StringRelatedField()
+    currency_type = serializers.StringRelatedField()
+    region = serializers.StringRelatedField()
+    district = serializers.StringRelatedField()
+    requirements = RequirementsSerializer(read_only=True, many=True)
+    tasks = TasksSerializer(read_only=True, many=True)
+    conditions = ConditionsSerializer(read_only=True, many=True)
+    tags = TagsSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Vacancy
+        fields = ('id', 'company', 'title', 'work_experience', 'type_work', 'salary_type', 'currency_type', 'start_salary', 'end_salary', 'is_online', 'region', 'district', 'requirements', 'tasks', 'conditions', 'tags')

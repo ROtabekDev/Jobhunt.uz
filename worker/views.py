@@ -1,5 +1,6 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
 
 from .models import (
     Worker,
@@ -21,13 +22,13 @@ from .serializers import (
     DriverLicensesSerializer,
     CreateEducationSerializer,
     CreateWorkExperienceSerializer,
-    CreateLanguagesSerializer,
-    ListVacancySerializer,
-    Vacancy,
-    RetrieveVacancySerializer
+    CreateLanguagesSerializer, 
+    ListWorkerSerializer,
+    RetrieveWorkerSerializer
 )
 
-from .permissions import IsWorkerUser
+from .permissions import IsWorkerUser 
+from company.models import Vacancy
 
 
 
@@ -77,11 +78,14 @@ class CreateLanguages(CreateAPIView):
         user = self.request.user
         worker = Worker.objects.get(user=user)
         serializer.save(worker=worker) 
+ 
+ 
+class WorkerListRetrieveAPIView(ModelViewSet):
+    queryset = Worker.objects.all()
 
-class VacancyListAPIView(ListAPIView):
-    queryset = Vacancy.objects.all()
-    serializer_class = ListVacancySerializer
-
-class VacancyRetrieveAPIView(RetrieveAPIView):
-    queryset = Vacancy.objects.all()
-    serializer_class = RetrieveVacancySerializer
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ListWorkerSerializer
+        if self.action == 'retrieve':
+            return RetrieveWorkerSerializer 
+ 
