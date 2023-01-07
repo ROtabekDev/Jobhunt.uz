@@ -10,7 +10,8 @@ from .views import (
     VacancyListAPIView,
     VacancyRetrieveAPIView,
     CompanyListAPIView,
-    CompanyRetrieveAPIView
+    CompanyRetrieveAPIView,
+    CompanyProfile
 )
 
 urlpatterns = [
@@ -28,4 +29,5 @@ urlpatterns = [
     path('company-list/', CompanyListAPIView.as_view()),
     path('company-list/<int:pk>/', CompanyRetrieveAPIView.as_view()), 
  
+    path('profile/', CompanyProfile.as_view())
 ]

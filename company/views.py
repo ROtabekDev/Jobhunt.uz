@@ -1,5 +1,7 @@
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
+
+from django.shortcuts import get_object_or_404
 
 from .models import (
     Company,
@@ -74,3 +76,15 @@ class CompanyListAPIView(ListAPIView):
 class CompanyRetrieveAPIView(RetrieveAPIView):
     queryset = Company.objects.all()
     serializer_class = RetrieveCompanySerializer 
+
+class CompanyProfile(RetrieveUpdateAPIView):
+    serializer_class = RetrieveCompanySerializer
+    permission_classes = [IsAuthenticated, IsCompanyUser] 
+
+    def get_queryset(self):
+        return Company.objects.filter(user=self.request.user)
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = get_object_or_404(queryset)
+        return obj
