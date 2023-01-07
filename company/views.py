@@ -22,7 +22,9 @@ from .serializers import (
     CompanyRegisterSerializer,
     CreateVacancySerializer,
     ListVacancySerializer,
-    RetrieveVacancySerializer
+    RetrieveVacancySerializer,
+    ListCompanySerializer,
+    RetrieveCompanySerializer
 )
 
 from .permissions import IsCompanyUser
@@ -63,3 +65,12 @@ class VacancyListAPIView(ListAPIView):
 class VacancyRetrieveAPIView(RetrieveAPIView):
     queryset = Vacancy.objects.all()
     serializer_class = RetrieveVacancySerializer
+
+class CompanyListAPIView(ListAPIView):
+    queryset = Company.objects.all()
+    serializer_class = ListCompanySerializer
+    filterset_fields = ['industrial_sector']
+
+class CompanyRetrieveAPIView(RetrieveAPIView):
+    queryset = Company.objects.all()
+    serializer_class = RetrieveCompanySerializer 

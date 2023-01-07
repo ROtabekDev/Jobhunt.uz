@@ -8,7 +8,9 @@ from .views import (
     RegisterCompany,
     CreateVacancyAPIView,
     VacancyListAPIView,
-    VacancyRetrieveAPIView
+    VacancyRetrieveAPIView,
+    CompanyListAPIView,
+    CompanyRetrieveAPIView
 )
 
 urlpatterns = [
@@ -22,5 +24,8 @@ urlpatterns = [
 
     path('vacancy/', VacancyListAPIView.as_view()),
     path('vacancy/<int:pk>/', VacancyRetrieveAPIView.as_view()), 
+ 
+    path('company-list/', CompanyListAPIView.as_view()),
+    path('company-list/<int:pk>/', CompanyRetrieveAPIView.as_view()), 
  
 ]

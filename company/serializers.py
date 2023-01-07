@@ -14,7 +14,7 @@ from .models import (
     Tags
 )
 
-from main.serializers import CustomUserSerializer
+from main.serializers import CustomUserSerializer, IndisturialSectorSerializer, SpecialitySerializer
 from main.models import CustomUser 
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -198,3 +198,22 @@ class RetrieveVacancySerializer(ModelSerializer):
     class Meta:
         model = Vacancy
         fields = ('id', 'company', 'title', 'work_experience', 'type_work', 'salary_type', 'currency_type', 'start_salary', 'end_salary', 'is_online', 'region', 'district', 'requirements', 'tasks', 'conditions', 'tags')
+
+
+class ListCompanySerializer(ModelSerializer): 
+    industrial_sector = IndisturialSectorSerializer(read_only=True, many=True) 
+
+    class Meta:
+        model = Company
+        fields = ('id','name_company', 'industrial_sector')
+
+class RetrieveCompanySerializer(ModelSerializer):
+    user = CustomUserSerializer(read_only=True)  
+    industrial_sector = IndisturialSectorSerializer(read_only=True, many=True) 
+    speciality = SpecialitySerializer(read_only=True, many=True) 
+    size_company = serializers.StringRelatedField()
+    type_company = serializers.StringRelatedField() 
+
+    class Meta:
+        model = Company
+        fields = ('id', 'user', 'name_company', 'legal_name_company', 'industrial_sector', 'speciality', 'size_company', 'type_company', 'description', 'web_page')
