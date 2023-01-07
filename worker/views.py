@@ -1,6 +1,8 @@
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
+
+from django.shortcuts import get_object_or_404
 
 from .models import (
     Worker,
@@ -89,3 +91,14 @@ class WorkerListRetrieveAPIView(ModelViewSet):
         if self.action == 'retrieve':
             return RetrieveWorkerSerializer 
  
+class WorkerProfile(RetrieveUpdateAPIView):
+    serializer_class = RetrieveWorkerSerializer
+    permission_classes = [IsAuthenticated, IsWorkerUser] 
+
+    def get_queryset(self):
+        return Worker.objects.filter(user=self.request.user)
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = get_object_or_404(queryset)
+        return obj

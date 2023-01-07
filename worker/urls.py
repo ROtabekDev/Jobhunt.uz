@@ -9,7 +9,8 @@ from .views import (
     CreateEducation,
     CreateWorkExperience,
     CreateLanguages,
-    WorkerListRetrieveAPIView
+    WorkerListRetrieveAPIView,
+    WorkerProfile
  
 )
 
@@ -27,4 +28,6 @@ urlpatterns = [
     
     path('candidate/', WorkerListRetrieveAPIView.as_view({'get': 'list'})),
     path('candidate/<int:pk>/', WorkerListRetrieveAPIView.as_view({'get': 'retrieve'})),  
+    
+    path('profile/', WorkerProfile.as_view()),
 ]

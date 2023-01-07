@@ -142,8 +142,9 @@ class RetrieveWorkerSerializer(ModelSerializer):
     work_experience = CreateWorkExperienceSerializer(read_only=True, many=True)
     languages = LanguagesSerializer(read_only=True, many=True)
     skills = SkillsSerializer(read_only=True, many=True)
+    driver_license = SkillsSerializer(read_only=True, many=True)
     
     class Meta:
         model = Worker
-        fields = ('user', 'full_name', 'birthday', 'industurial_sector_id', 'specility_id', 'salary', 'currency_type_id', 'education', 'work_experience', 'languages', 'skills')
- 
+        fields = ('user', 'full_name', 'birthday', 'industurial_sector_id', 'specility_id', 'salary', 'currency_type_id', 'education', 'work_experience', 'languages', 'skills', 'driver_license', 'is_freelancer')
+  
