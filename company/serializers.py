@@ -19,6 +19,35 @@ from main.models import CustomUser
 
 from django.core.exceptions import ObjectDoesNotExist
 
+class CompanyRegisterSerializer(ModelSerializer):
+    user = CustomUserSerializer() 
+    
+    class Meta:
+        model = Company
+        fields = ('user','name_company', 'legal_name_company', 'industrial_sector', 'speciality', 'size_company', 'type_company', 'description', 'web_page')
+     
+    def create(self, validated_data): 
+        user = dict(validated_data.pop('user'))  
+        del user['password2'] 
+        user = CustomUser.objects.create_user(
+                                        phone_number=user['phone_number'],
+                                        email=user['email'],
+                                        region_id=user['region_id'],
+                                        district_id=user['district_id'],
+                                        password=user['password']
+                                        )
+        
+        industrial_sector = validated_data.pop('industrial_sector')                        
+        speciality = validated_data.pop('speciality')   
+
+        company = Company.objects.create(
+            user=user,
+            **validated_data
+            )
+        company.industrial_sector.set(industrial_sector)
+        company.speciality.set(speciality)
+        return company
+
 class SizeCompanySerializer(ModelSerializer):
     
     class Meta:
@@ -66,43 +95,13 @@ class TagsSerializer(ModelSerializer):
     class Meta:
         model = Tags
         fields = ('id', 'name')
-
-
-class CompanyRegisterSerializer(ModelSerializer):
-    user = CustomUserSerializer() 
-    
-    class Meta:
-        model = Company
-        fields = ('user','name_company', 'legal_name_company', 'industrial_sector', 'speciality', 'size_company', 'type_company', 'description', 'web_page')
-     
-    def create(self, validated_data): 
-        user = dict(validated_data.pop('user'))  
-        del user['password2'] 
-        user = CustomUser.objects.create_user(
-                                        phone_number=user['phone_number'],
-                                        email=user['email'],
-                                        region_id=user['region_id'],
-                                        district_id=user['district_id'],
-                                        password=user['password']
-                                        )
-        
-        industrial_sector = validated_data.pop('industrial_sector')                        
-        speciality = validated_data.pop('speciality')   
-
-        company = Company.objects.create(
-            user=user,
-            **validated_data
-            )
-        company.industrial_sector.set(industrial_sector)
-        company.speciality.set(speciality)
-        return company
-
+ 
 class CreateVacancySerializer(ModelSerializer):
     company = serializers.StringRelatedField(read_only=True) 
     requirements = RequirementsSerializer(write_only=True, many=True)
-    tasks = RequirementsSerializer(write_only=True, many=True)
-    conditions = RequirementsSerializer(write_only=True, many=True)
-    tags = RequirementsSerializer(write_only=True, many=True)
+    tasks = TasksSerializer(write_only=True, many=True)
+    conditions = ConditionsSerializer(write_only=True, many=True)
+    tags = TagsSerializer(write_only=True, many=True)
 
 
     class Meta:

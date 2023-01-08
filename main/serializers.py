@@ -16,41 +16,6 @@ from .models import (
 from worker.models import Worker
 from company.models import Company
 
- 
-class RegionSerializer(ModelSerializer):
-    
-    class Meta:
-        model = Region
-        fields = ('id', 'name')
-
-
-class DistrictSerializer(ModelSerializer):
-    region_id = serializers.StringRelatedField()
-
-    class Meta:
-        model = District
-        fields = ('id', 'name', 'region_id') 
-
-class CurrencyTypesSerializer(ModelSerializer):
-
-    class Meta:
-        model = Currency_types
-        fields = ('id', 'name')
-
-class IndisturialSectorSerializer(ModelSerializer):
-
-    class Meta:
-        model = Indisturial_sector
-        fields = ('id', 'name')
-
-
-class SpecialitySerializer(ModelSerializer):
-    idustrial_sector_id = serializers.StringRelatedField()
-
-    class Meta:
-        model = Speciality
-        fields = ('id', 'name', 'idustrial_sector_id', 'for_worker')
-
 class CustomUserSerializer(ModelSerializer):
     password = serializers.CharField(min_length=6, max_length=68, write_only=True)
     password2 = serializers.CharField(min_length=6, max_length=68, write_only=True)
@@ -110,3 +75,37 @@ class LoginSerializer(serializers.ModelSerializer):
             'phone_number': user.phone_number, 
             'tokens': user.tokens
         } 
+
+class RegionSerializer(ModelSerializer):
+    
+    class Meta:
+        model = Region
+        fields = ('id', 'name')
+
+
+class DistrictSerializer(ModelSerializer):
+    region_id = serializers.StringRelatedField()
+
+    class Meta:
+        model = District
+        fields = ('id', 'name', 'region_id') 
+
+class CurrencyTypesSerializer(ModelSerializer):
+
+    class Meta:
+        model = Currency_types
+        fields = ('id', 'name')
+
+class IndisturialSectorSerializer(ModelSerializer):
+
+    class Meta:
+        model = Indisturial_sector
+        fields = ('id', 'name')
+
+
+class SpecialitySerializer(ModelSerializer):
+    idustrial_sector_id = serializers.StringRelatedField()
+
+    class Meta:
+        model = Speciality
+        fields = ('id', 'name', 'idustrial_sector_id', 'for_worker')

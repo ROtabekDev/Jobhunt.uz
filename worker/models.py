@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from main.models import Indisturial_sector, Speciality, Currency_types
 
 User = get_user_model()
-
+ 
 
 class Worker(models.Model):
     """Nomzod"""
